@@ -20,6 +20,9 @@ public class SpookyDungeon
             test.addRoom(room);
         }
         test.printDungeon();
+        test.emptyRoom(3);
+        test.printDungeon();
+ 
         
 
     }

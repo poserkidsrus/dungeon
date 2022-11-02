@@ -45,8 +45,8 @@ public class Enemy extends Encounter
     }
     public void populateStats(String temp)
     {
-        temp = "Enemy: \n"+ getName() + "Attack Power: \n" + attackPower +
-            "Defense Level: \n" + defenseLevel + "Life Total: \n" +lifeTotal;
+        temp = "Enemy: " + getName() + "\n Attack Power: " + attackPower +
+            " \n Defense Level: " + defenseLevel + "\n Life Total: " +lifeTotal;
         stats.add(temp);
     }
     public ArrayList<String> getStats()

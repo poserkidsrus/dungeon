@@ -52,4 +52,17 @@ public class Player extends Encounter
         }
         
     }
+    public void gainLevel(int exp, int levelup)
+    {
+        if (exp == 100)
+        {
+            levelup = 1;
+            classLevel += levelup;
+        }
+        
+    }
+    public int levelStat(int stat)
+    {
+        return classLevel;
+    }
 }

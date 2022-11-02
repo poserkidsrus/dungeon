@@ -16,7 +16,7 @@ public class KBLinkedList<E>
         this.tail = null;
         this.dungeonSize = 0;
     }
-
+    //player enters dungeon size into scanner
     public void requestDungeonSize()
     {
         Scanner scanner = new Scanner(System.in);
@@ -31,11 +31,11 @@ public class KBLinkedList<E>
         
         dungeonSize = input;
         
-        String third = "Beware! You are about to traverse" +
-            dungeonSize + "rooms! You will face many enemies!";
+        String third = "Beware! You are about to traverse " +
+            dungeonSize + " rooms! You will face many enemies!";
         System.out.println(third);
     }
-
+    //creates dungeon based on player input size.  takes objects from arraylist and randomly assigns them to amount of nodes = dungeonsize
     public void createDungeon()
     {
         encounters = new ArrayList<>();
@@ -58,10 +58,17 @@ public class KBLinkedList<E>
             Collections.shuffle(encounters);
         }
     }
+    //return contents of encounters array list from above
     public ArrayList<Encounter> getEncounters()
     {
         return encounters;
     }
+    //nothing yet
+    public void moveRooms()
+    {
+        
+    }
+    //prints contents of current dungeon
     public void printDungeon()
     {
         Node temp = head;
@@ -99,42 +106,47 @@ public class KBLinkedList<E>
             temp.previous = new Node<>(item);
             
         }
-       
-
-
-
-        // Node tail = head.previous;
-        // Node<E> newNode = new Node<>(item);
-        // Node<E> temp = head;
-        // if(emptyCheck()){
-            // newNode.next = newNode.previous = newNode;
-            // head = newNode;
-        // }
-        // else
-        // {
-            // while (temp.previous != null)
-            // {
-                // temp = temp.previous;
-            // }
-            
-            // temp.previous = newNode;
-            // newNode.next = temp;
+      
                 dungeonSize++;
         }
+        //adds empty room, but still only to the head. if i try temp=this.tail, i get null pointer exception. while loop must be wrong.
+    public void emptyRoom(int location)
+    {
+        Node temp = this.head;
+        int tab = 0;
+        while (temp.getNext() != null && tab<location-1)
+        {
+            temp = temp.getNext();
+            tab++;
+        }
+        temp.setData(new Encounter("Empty Room"));
+    }
+    public int playerLocation()
+    {
+        int location = 0;
+        Node temp = this.head;
+        String name = temp.getData().getClass().getSimpleName();
+        while (!name.equals("Player1"))
+        {
+            temp = temp.getNext();
+            name = temp.getData().getClass().getSimpleName();
+            location++;
+        }
+        return location;
         
-
+    }
 
     public E returnHead()
     {
         return head.data;
     }
-
+    
     public E returnTail()
     {
         return tail.data;
     }
-
-    public int returndungeonSize()
+      
+    public int returnDungeonSize()
     {
         return dungeonSize;
     }
@@ -146,21 +158,39 @@ public class KBLinkedList<E>
     private class Node<E>
     {
         private E data;
-        private Node<E> next;
-        private Node<E> previous;
+        private Node next;
+        private Node previous;
 
-        private Node(E dataItem)
+        private Node(E data)
         {
-            data = dataItem;
+            this.data = data;
             next = null;
             previous = null;
         }
 
-        private Node(E dataItem, Node<E> toNextNode, Node<E> toPreviousNode)
+        public void setData(E data)
         {
-            data = dataItem;
-            next = toNextNode;
-            previous = toPreviousNode;
+            this.data = data;
+        }
+        public E getData()
+        {
+            return this.data;
+        }
+        public Node getNext()
+        {
+            return this.next;
+        }
+        public void setNext(Node nextNode)
+        {
+            this.next = nextNode;
+        }
+        public Node getPrevious()
+        {
+            return this.previous;
+        }
+        public void setPrevious(Node previousNode)
+        {
+            this.previous = previousNode;
         }
 
     }

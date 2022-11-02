@@ -10,7 +10,11 @@ public class EncounterTest
     // instance variables - replace the example below with your own
     public static void main(String [] args)
     {
-        Encounter test1 = new Enemy("goblin");
-        test1.statPrint();
+        Enemy test1 = new Enemy("goblin");
+        test1.populateStats("stats");
+        System.out.print(test1.getStats());
+        
+
+
     }
 }

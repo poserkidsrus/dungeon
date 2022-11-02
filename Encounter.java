@@ -55,10 +55,10 @@ public class Encounter
     {
         enemies.add(new Enemy("Goblin"));
     }
-    public void statPrint()
-    {
-        System.out.println(goblin.getStats());
-    }
+    // public void statPrint()
+    // {
+        // System.out.println(goblin.getStats());
+    // }
     /**
      * An example of a method - replace this comment with your own
      *

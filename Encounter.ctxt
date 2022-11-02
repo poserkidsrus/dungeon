@@ -12,6 +12,4 @@ comment4.params=
 comment4.target=java.lang.String\ getName()
 comment5.params=
 comment5.target=void\ getEnemies()
-comment6.params=
-comment6.target=void\ statPrint()
-numComments=7
+numComments=6
