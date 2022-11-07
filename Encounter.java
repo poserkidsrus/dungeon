@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.lang.Class;
 
 /**
  * Write a description of class Encounter here.
@@ -10,15 +11,8 @@ import java.util.ArrayList;
 public class Encounter
 {
     // instance variables - replace the example below with your own
-    private Enemy goblin;
-    private Enemy golem;
-    private Enemy skeleton;
-    private Enemy witch;
-    private Item sword;
-    private Item potion;
-    private Exit exit;
-    private Player player1;
-    private ArrayList<Enemy> enemies;
+    
+    private String stats;
     private String name;
     /**
      * Constructor for objects of class Encounter
@@ -27,34 +21,29 @@ public class Encounter
     public Encounter(String name)
     {
         // initialise instance variables
-        enemies = new ArrayList<>();
+        
 
         this.name = name;
     }
-    public void makeEnemies()
+    public void setStats(String temp)
     {
-        goblin = new Enemy("Goblin");
-        golem = new Enemy("Stone Golem");
-        skeleton = new Enemy("Spooky skeleton");
-        witch = new Enemy("Witch");
-        sword = new Item("Sharp sword");
-        potion = new Item("Health potion");
-        exit = new Exit("You have found the exit!");
-        player1 = new Player("Player1");
-        
+        this.stats = temp;
     }
+    
+    public String getStats()
+    {
+        return this.stats;
+    }
+    
     public String toString()
     {
         return getName();
     }
     public String getName()
     {
-        return name;
+        return this.name;
     }
-    public void getEnemies()
-    {
-        enemies.add(new Enemy("Goblin"));
-    }
+    
     // public void statPrint()
     // {
         // System.out.println(goblin.getStats());

@@ -5,6 +5,8 @@
  * @author (your name)
  * @version (a version number or a date)
  */
+import java.util.ArrayList;
+import java.lang.Class;
 public class Player extends Encounter
 {
     // instance variables - replace the example below with your own
@@ -24,16 +26,21 @@ public class Player extends Encounter
     {
         // initialise instance variables
         super(name);
+        
         lifeTotal = 30;
         classLevel = 1;
         attackPower = 15;
         speed = 50;
         defenseLevel = 30;
         maxLife = 150;
-        exp = 0;
+        exp = 1;
+        setStats("stats");
     }
-
-    public void setLife(int lifeTotal)
+    public void gainExp(int expAdd)
+    {
+        this.exp += expAdd;
+    }
+    public void setLife()
     {
         this.lifeTotal = lifeTotal;
     }
@@ -52,17 +59,28 @@ public class Player extends Encounter
         }
         
     }
-    public void gainLevel(int exp, int levelup)
+    public void gainLevel()
     {
         if (exp == 100)
         {
-            levelup = 1;
-            classLevel += levelup;
+            int levelup = 1;
+            this.classLevel += levelup;
         }
         
     }
-    public int levelStat(int stat)
+    public int levelStat()
     {
         return classLevel;
+    }
+    public void setStats(String temp)
+    {
+        temp = "User:" + this.getName() + "\n Attack Power: " + this.attackPower +
+            " \n Defense Level: " + this.defenseLevel + "\n Life Total: " +this.lifeTotal;
+    }
+ 
+    public void printStats()
+    {
+        this.setStats("stats");
+        System.out.print(getStats());
     }
 }

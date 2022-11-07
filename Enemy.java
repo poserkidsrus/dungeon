@@ -1,6 +1,6 @@
 import java.util.Random;
 import java.util.ArrayList;
-
+import java.lang.Class;
 /**
  * Write a description of class Enemy here.
  *
@@ -39,20 +39,17 @@ public class Enemy extends Encounter
         lifeTotal = rand.nextInt(lifeBounds)+3;
         this.lifeTotal = lifeTotal;
         
-        //stats = ("Enemy: \n"+name + "Attack Power: \n" + attackPower +
-            //"Defense Level: \n" + defenseLevel + "Life Total: \n" +lifeTotal);
+        
         
     }
+    
     public void populateStats(String temp)
     {
         temp = "Enemy: " + getName() + "\n Attack Power: " + attackPower +
             " \n Defense Level: " + defenseLevel + "\n Life Total: " +lifeTotal;
         stats.add(temp);
     }
-    public ArrayList<String> getStats()
-    {
-        return stats;
-    }
+    
     /**
      * An example of a method - replace this comment with your own
      *

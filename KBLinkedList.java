@@ -3,194 +3,283 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Arrays;
 import java.util.Random;
+import java.lang.Class;
 
 public class KBLinkedList<E>
 {
-    private Node<E> head;
-    private Node<E> tail;
+    private Cell<E> head;
+    private Cell<E> tail;
     private int dungeonSize;
     private ArrayList<Encounter> encounters;
     public KBLinkedList()
     {
         this.head = null;
         this.tail = null;
-        this.dungeonSize = 0;
+
     }
     //player enters dungeon size into scanner
-    public void requestDungeonSize()
-    {
-        Scanner scanner = new Scanner(System.in);
-        String first = "Hello traveler!\n" +
-            "You are about to create a dangerous magical dungeon\n" +
-            "How many rooms are you prepared to endure?\n";
-        String second = "Please enter the size of your dungeon: ";
+    
 
-        System.out.println(first);
-        System.out.println(second);
-        int input = scanner.nextInt();
-        
-        dungeonSize = input;
-        
-        String third = "Beware! You are about to traverse " +
-            dungeonSize + " rooms! You will face many enemies!";
-        System.out.println(third);
-    }
-    //creates dungeon based on player input size.  takes objects from arraylist and randomly assigns them to amount of nodes = dungeonsize
-    public void createDungeon()
-    {
-        encounters = new ArrayList<>();
-        encounters.add(new Player("Player1"));
-        encounters.add(new Exit("Exit Door"));
-        String[] possibleMonsters = {"Goblin", "Stone Golem", "Spooky Skeleton", "Witch","Potion", "Sword"};
-        Random rand = new Random();
-
-        while(encounters.size() < dungeonSize)
-        {
-            int i = rand.nextInt(possibleMonsters.length);
-            if(i < 4)
-            {
-                encounters.add(new Enemy(possibleMonsters[i]));
-            }
-            else
-            {  
-                encounters.add(new Item(possibleMonsters[i]));
-            }
-            Collections.shuffle(encounters);
-        }
-    }
+    
+    //creates dungeon based on player input size.  takes objects from arraylist and randomly assigns them to amount of Cells = dungeonsize
+    
     //return contents of encounters array list from above
-    public ArrayList<Encounter> getEncounters()
-    {
-        return encounters;
-    }
+    
     //nothing yet
-    public void moveRooms()
+    
+    public void movePlayerRight()
     {
+        Cell temp = this.head;
+        Cell swapCell = this.head;
         
+        int location = this.playerLocation();
+        int moveLocation = this.rightOfPlayer();
+        
+        for(int i = 0; i < location; i++)
+        {
+            temp=temp.getNext();
+            
+        }
+
+        
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();
+            
+        }
+        Encounter tryout = (Encounter) swapCell.data;
+        swapCell.data = temp.data;
+        temp.data = tryout;
+    }
+    public void movePlayerLeft()
+    {
+        Cell temp = this.head;
+        Cell swapCell = this.head;
+        
+        int location = this.playerLocation();
+        int moveLocation = this.leftOfPlayer();
+        
+        for(int i = 0; i < location; i++)
+        {
+            temp=temp.getNext();
+            
+        }
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();
+            
+        }
+        
+        Encounter tryout = (Encounter) temp.data;
+        temp.data = swapCell.data;
+        swapCell.data = tryout;
     }
     //prints contents of current dungeon
     public void printDungeon()
     {
-        Node temp = head;
-        if(head == null)
+        System.out.println();
+        System.out.print("[ ");
+                if(head == null)
         {
 
             System.out.println("This dungeon is empty");
             return;
         }
-
-        while(temp != null)
+        Cell temp = head;
+        int location = playerLocation();
+        for (int i = 0; i < location; i++)
         {
-            System.out.print(temp.data + "->");
-            temp = temp.previous;
+            temp = temp.getNext();
         }
-        System.out.println("The End");
+        for (int i = 0; i <= this.dungeonSize / 2; i++)
+        {
+            temp = temp.getNext();
+        }
+        for (int i = 0; i < this.dungeonSize; i++)
+        {
+            Encounter encounter = (Encounter) temp.getData();
+            System.out.print(encounter.getName());
+            temp = temp.getNext();
+            if(i < this.dungeonSize - 1)
+            {
+            System.out.print(" ]<>[ ");
+            }
+        }
+        System.out.print(" ]");
+        System.out.println();
     }
-    //adds node to front of linkedlist
+    //adds Cell to front of linkedlist
 
-    public void addRoom(E item)
+    public void fillDungeon(E item)
     {
+        Cell temp = new Cell(item, null, null);
         if(head == null)
         {
-           
-            head = new Node<>(item);
+            
+            temp.setNext(temp);
+            temp.setPrevious(temp);
+            head = temp;
+            tail = head;
+            
         }
         else
         {
-            Node<E> temp = head;
-            while (temp.previous != null)
-            {
-                temp = temp.previous;
-            }
-            
-            temp.previous = new Node<>(item);
-            
+            temp.setNext(head);
+            temp.setPrevious(tail);
+            tail.setNext(temp);
+            tail = temp;
         }
-      
-                dungeonSize++;
-        }
-        //adds empty room, but still only to the head. if i try temp=this.tail, i get null pointer exception. while loop must be wrong.
+        dungeonSize++;
+    }
+    //adds empty room, but still only to the head. if i try temp=this.tail, i get null pointer exception. while loop must be wrong.
     public void emptyRoom(int location)
     {
-        Node temp = this.head;
+        Cell temp = this.head;
         int tab = 0;
-        while (temp.getNext() != null && tab<location-1)
+        while (temp.getPrevious() != null && tab<location-1)
         {
-            temp = temp.getNext();
+            temp = temp.getPrevious();
             tab++;
         }
         temp.setData(new Encounter("Empty Room"));
     }
+    public int rightOfPlayer()
+    {
+        int locationMove = 0;
+        boolean flag = false;
+        Cell temp = this.head;
+        
+        while (temp != null)
+        {
+            if (temp.previous.getData().getClass().getSimpleName() == "Player")
+                {
+                    flag = true;
+                    break;
+                }
+            
+            temp = temp.getNext();
+            
+            locationMove++;
+        }
+        return locationMove;
+    }
+    public int leftOfPlayer()
+    {
+        int locationMove = 0;
+        boolean flag = false;
+        Cell temp = this.head;
+        
+        while (temp != null)
+        {
+            if (temp.next.getData().getClass().getSimpleName() == "Player")
+                {
+                    flag = true;
+                    break;
+                }
+            
+            temp = temp.getNext();
+            
+            locationMove++;
+        }
+        return locationMove;
+    }
     public int playerLocation()
     {
         int location = 0;
-        Node temp = this.head;
+        boolean flag = false;
+        Cell temp = this.head;
         String name = temp.getData().getClass().getSimpleName();
-        while (!name.equals("Player1"))
+        while (temp != null)
         {
+            {
+                if (name.equals("Player"))
+                {
+                    flag = true;
+                    break;
+                }
+            }
             temp = temp.getNext();
             name = temp.getData().getClass().getSimpleName();
             location++;
         }
         return location;
-        
+
+    }
+    public void playerData()
+    {
+        Cell temp = this.head;
+        int location = playerLocation();
+        for (int i = 0; i < location; i++)
+        {
+            temp = temp.getNext();
+        }
+        Encounter encounter = (Encounter) temp.getData();
+        System.out.print(encounter.getStats());
     }
 
     public E returnHead()
     {
-        return head.data;
+        return head.getData();
     }
-    
+
     public E returnTail()
     {
-        return tail.data;
+        return tail.getData();
     }
-      
-    public int returnDungeonSize()
-    {
-        return dungeonSize;
-    }
+
 
     public boolean emptyCheck()
     {
-        return dungeonSize == 0;
+        return head == null;
     }
-    private class Node<E>
+    private class Cell<E>
     {
         private E data;
-        private Node next;
-        private Node previous;
+        private Cell next;
+        private Cell previous;
 
-        private Node(E data)
+        private Cell(E data)
         {
             this.data = data;
-            next = null;
-            previous = null;
+            this.next = null;
+            this.previous = null;
+        }
+
+        private Cell(E data, Cell previousCell, Cell nextCell)
+        {
+            this.data = data;
+            this.next = nextCell;
+            this.previous = previousCell;
         }
 
         public void setData(E data)
         {
             this.data = data;
         }
+
         public E getData()
         {
             return this.data;
         }
-        public Node getNext()
+
+        public Cell getNext()
         {
             return this.next;
         }
-        public void setNext(Node nextNode)
+
+        public void setNext(Cell nextCell)
         {
-            this.next = nextNode;
+            this.next = nextCell;
         }
-        public Node getPrevious()
+
+        public Cell getPrevious()
         {
             return this.previous;
         }
-        public void setPrevious(Node previousNode)
+
+        public void setPrevious(Cell previousCell)
         {
-            this.previous = previousNode;
+            this.previous = previousCell;
         }
 
     }

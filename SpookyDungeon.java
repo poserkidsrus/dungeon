@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.lang.Class;
 
 /**
  * Write a description of class SpookyDungeon here.
@@ -10,19 +11,12 @@ public class SpookyDungeon
 {
     public static void main(String[] args)
     {
-        KBLinkedList<Encounter> test = new KBLinkedList();
-        test.requestDungeonSize();
-        test.createDungeon();
-        ArrayList<Encounter> game = test.getEncounters();
+        Background test1 = new Background();
         
-        for (Encounter room : game)
-        {
-            test.addRoom(room);
-        }
-        test.printDungeon();
-        test.emptyRoom(3);
-        test.printDungeon();
- 
+        test1.introduction();
+        test1.gameMenu();
+        
+        
         
 
     }
