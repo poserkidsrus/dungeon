@@ -12,7 +12,7 @@ public class Encounter
 {
     // instance variables - replace the example below with your own
     
-    private String stats;
+    
     private String name;
     /**
      * Constructor for objects of class Encounter
@@ -25,15 +25,7 @@ public class Encounter
 
         this.name = name;
     }
-    public void setStats(String temp)
-    {
-        this.stats = temp;
-    }
     
-    public String getStats()
-    {
-        return this.stats;
-    }
     
     public String toString()
     {

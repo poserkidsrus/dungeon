@@ -9,77 +9,26 @@ public class KBLinkedList<E>
 {
     private Cell<E> head;
     private Cell<E> tail;
+    private Scanner scanner;
     private int dungeonSize;
     private ArrayList<Encounter> encounters;
+    private ArrayList<Encounter> inventory;
+    private int playerLocation;
+    private char z;
     public KBLinkedList()
     {
         this.head = null;
         this.tail = null;
-
+        this.scanner = new Scanner(System.in);
+        this.inventory = new ArrayList<>();
     }
-    //player enters dungeon size into scanner
-    
 
-    
-    //creates dungeon based on player input size.  takes objects from arraylist and randomly assigns them to amount of Cells = dungeonsize
-    
-    //return contents of encounters array list from above
-    
-    //nothing yet
-    
-    public void movePlayerRight()
-    {
-        Cell temp = this.head;
-        Cell swapCell = this.head;
-        
-        int location = this.playerLocation();
-        int moveLocation = this.rightOfPlayer();
-        
-        for(int i = 0; i < location; i++)
-        {
-            temp=temp.getNext();
-            
-        }
-
-        
-        for(int i = 0; i < moveLocation; i++)
-        {
-            swapCell=swapCell.getNext();
-            
-        }
-        Encounter tryout = (Encounter) swapCell.data;
-        swapCell.data = temp.data;
-        temp.data = tryout;
-    }
-    public void movePlayerLeft()
-    {
-        Cell temp = this.head;
-        Cell swapCell = this.head;
-        
-        int location = this.playerLocation();
-        int moveLocation = this.leftOfPlayer();
-        
-        for(int i = 0; i < location; i++)
-        {
-            temp=temp.getNext();
-            
-        }
-        for(int i = 0; i < moveLocation; i++)
-        {
-            swapCell=swapCell.getNext();
-            
-        }
-        
-        Encounter tryout = (Encounter) temp.data;
-        temp.data = swapCell.data;
-        swapCell.data = tryout;
-    }
     //prints contents of current dungeon
     public void printDungeon()
     {
         System.out.println();
         System.out.print("[ ");
-                if(head == null)
+        if(head == null)
         {
 
             System.out.println("This dungeon is empty");
@@ -102,7 +51,7 @@ public class KBLinkedList<E>
             temp = temp.getNext();
             if(i < this.dungeonSize - 1)
             {
-            System.out.print(" ]<>[ ");
+                System.out.print(" ]<>[ ");
             }
         }
         System.out.print(" ]");
@@ -115,12 +64,12 @@ public class KBLinkedList<E>
         Cell temp = new Cell(item, null, null);
         if(head == null)
         {
-            
+
             temp.setNext(temp);
             temp.setPrevious(temp);
             head = temp;
             tail = head;
-            
+
         }
         else
         {
@@ -131,58 +80,192 @@ public class KBLinkedList<E>
         }
         dungeonSize++;
     }
-    //adds empty room, but still only to the head. if i try temp=this.tail, i get null pointer exception. while loop must be wrong.
-    public void emptyRoom(int location)
+
+    // move player to the right in the linked list
+    public void movePlayerRight()
     {
         Cell temp = this.head;
-        int tab = 0;
-        while (temp.getPrevious() != null && tab<location-1)
+        Cell swapCell = this.head;
+
+        int location = this.playerLocation();
+        int moveLocation = this.rightOfPlayer();
+
+        for(int i = 0; i < location; i++)
         {
-            temp = temp.getPrevious();
-            tab++;
+            temp=temp.getNext();         
         }
-        temp.setData(new Encounter("Empty Room"));
+
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();     
+        }
+        if (swapCell.getData().getClass().getSimpleName() == "Item")
+        {
+            System.out.print("Would you like to pick up this item? Enter Y for yes or N for no.");
+            this.z = this.scanner.next().charAt(0);
+            if(Character.toLowerCase(z) == 'y')
+            {
+                getItemRight();
+                Encounter tryout = (Encounter) temp.data;
+                temp.data = swapCell.data;
+                swapCell.data = tryout;
+            }
+            else
+            {
+                Encounter tryout = (Encounter) swapCell.data;
+                swapCell.data = temp.data;
+                temp.data = tryout;
+            }
+        }
+        else
+        {
+            Encounter tryout = (Encounter) swapCell.data;
+            swapCell.data = temp.data;
+            temp.data = tryout;
+        }
     }
+
+    // move player left in the linked list
+    public void movePlayerLeft()
+    {
+        Cell temp = this.head;
+        Cell swapCell = this.head;
+
+        int location = this.playerLocation();
+        int moveLocation = this.leftOfPlayer();
+
+        for(int i = 0; i < location; i++)
+        {
+            temp=temp.getNext();
+
+        }
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();
+
+        }
+
+        if(swapCell.getData().getClass().getSimpleName() == "Item")
+        {
+            System.out.print("Would you like to pick up this item? Enter Y for yes or N for no.");
+            this.z = this.scanner.next().charAt(0);
+            if(Character.toLowerCase(z) == 'y')
+            {
+                getItemLeft();
+                Encounter tryout = (Encounter) temp.data;
+                temp.data = swapCell.data;
+                swapCell.data = tryout;
+            }
+            else
+            {
+                Encounter tryout = (Encounter) temp.data;
+                temp.data = swapCell.data;
+                swapCell.data = tryout;
+            }
+        }
+        else
+        {
+            Encounter tryout = (Encounter) temp.data;
+            temp.data = swapCell.data;
+            swapCell.data = tryout;
+        }
+
+    }
+    // return index of cell to the right of player position
     public int rightOfPlayer()
     {
         int locationMove = 0;
         boolean flag = false;
         Cell temp = this.head;
-        
+
         while (temp != null)
         {
             if (temp.previous.getData().getClass().getSimpleName() == "Player")
-                {
-                    flag = true;
-                    break;
-                }
-            
+            {
+                flag = true;
+                break;
+            }
+
             temp = temp.getNext();
-            
+
             locationMove++;
         }
         return locationMove;
     }
+
+    // return index of cell to the left of player position
     public int leftOfPlayer()
     {
         int locationMove = 0;
         boolean flag = false;
         Cell temp = this.head;
-        
+
         while (temp != null)
         {
             if (temp.next.getData().getClass().getSimpleName() == "Player")
-                {
-                    flag = true;
-                    break;
-                }
-            
+            {
+                flag = true;
+                break;
+            }
+
             temp = temp.getNext();
-            
+
             locationMove++;
         }
         return locationMove;
     }
+
+    // if item is present in the cell left of the player, add item to inventory and replace with empty room
+    public void getItemLeft()
+    {
+        Cell temp = this.head;
+        Cell swapCell = this.head;
+
+        int location = playerLocation();
+        int moveLocation = leftOfPlayer();
+
+        for(int i = 0; i < location; i++)
+        {
+            temp=temp.getNext();
+
+        }
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();
+
+        }
+        Encounter inventoryitem = (Encounter) swapCell.data;
+        inventory.add(inventoryitem);
+        swapCell.setData(new Encounter("Empty Room"));
+
+    }
+
+    // if item is present in the cell right of player, add item to inventory and replace with empty room
+    public void getItemRight()
+    {
+        Cell temp = this.head;
+        Cell swapCell = this.head;
+
+        int location = playerLocation();
+        int moveLocation = rightOfPlayer();
+
+        for(int i = 0; i < location; i++)
+        {
+            temp=temp.getNext();
+
+        }
+
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();
+
+        }
+        Encounter inventoryitem = (Encounter) swapCell.data;
+        inventory.add(inventoryitem);
+        swapCell.setData(new Encounter("Empty Room"));
+    }
+
+    // loop through cells and iterate until player location is found, return value
     public int playerLocation()
     {
         int location = 0;
@@ -205,28 +288,48 @@ public class KBLinkedList<E>
         return location;
 
     }
-    public void playerData()
+
+    // loop through cells until exit is found, iterate and return value of exit cell
+    public int exitLocation()
     {
+        int location = 0;
+        boolean flag = false;
         Cell temp = this.head;
-        int location = playerLocation();
-        for (int i = 0; i < location; i++)
+        String name = temp.getData().getClass().getSimpleName();
+        while (temp != null)
         {
+            {
+                if (name.equals("Exit"))
+                {
+                    flag = true;
+                    break;
+                }
+            }
             temp = temp.getNext();
+            name = temp.getData().getClass().getSimpleName();
+            location++;
         }
-        Encounter encounter = (Encounter) temp.getData();
-        System.out.print(encounter.getStats());
+        return location;
+
     }
 
+    // returns data of cell in head position
     public E returnHead()
     {
         return head.getData();
     }
 
+    // returns data of cell in tail position
     public E returnTail()
     {
         return tail.getData();
     }
 
+    // returns Encounter Items in inventory
+    public ArrayList<Encounter> getInventory()
+    {
+        return inventory;
+    }
 
     public boolean emptyCheck()
     {

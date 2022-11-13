@@ -17,6 +17,7 @@ public class Player extends Encounter
     private int defenseLevel;
     private int maxLife;
     private int exp;
+    private String stats;
     
 
     /**
@@ -27,18 +28,42 @@ public class Player extends Encounter
         // initialise instance variables
         super(name);
         
-        lifeTotal = 30;
-        classLevel = 1;
-        attackPower = 15;
-        speed = 50;
-        defenseLevel = 30;
-        maxLife = 150;
-        exp = 1;
-        setStats("stats");
+        this.lifeTotal = 30;
+        this.classLevel = 1;
+        this.attackPower = 15;
+        this.speed = 50;
+        this.defenseLevel = 30;
+        this.maxLife = 150;
+        this.exp = 1;
+        this.stats = String.join(System.getProperty("line.separator"),
+        "Your Stats are: ",
+        "Level: " + this.classLevel + "",
+        "Health: " + this.lifeTotal + "",
+        "Speed: " + this.speed +"",
+        "Defense: " + this.defenseLevel+ "",
+        "Attack: " +this.attackPower+ "",
+        "Experience: " +this.exp+ "");
+        
     }
     public void gainExp(int expAdd)
     {
         this.exp += expAdd;
+    }
+    public void setAttack()
+    {
+        this.attackPower = attackPower;
+    }
+    public void setLevel()
+    {
+        this.classLevel = classLevel;
+    }
+    public void setSpeed()
+    {
+        this.speed = speed;
+    }
+    public void setDefense()
+    {
+        this.defenseLevel = defenseLevel;
     }
     public void setLife()
     {
@@ -46,16 +71,16 @@ public class Player extends Encounter
     }
     public int getLifeTotal()
     {
-        return lifeTotal;
+        return this.lifeTotal;
     }
     public void gainLife(int lifeGain)
     {
         // put your code here
-        lifeTotal += lifeGain;
+        this.lifeTotal += lifeGain;
         
         if (lifeTotal >= maxLife)
         {
-            lifeTotal = maxLife;
+            this.lifeTotal = maxLife;
         }
         
     }
@@ -72,15 +97,13 @@ public class Player extends Encounter
     {
         return classLevel;
     }
-    public void setStats(String temp)
+    public void setStats()
     {
-        temp = "User:" + this.getName() + "\n Attack Power: " + this.attackPower +
-            " \n Defense Level: " + this.defenseLevel + "\n Life Total: " +this.lifeTotal;
+        this.stats = stats;
     }
- 
-    public void printStats()
+    public String getStats()
     {
-        this.setStats("stats");
-        System.out.print(getStats());
+        return stats;
     }
+
 }

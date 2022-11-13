@@ -1,4 +1,3 @@
-
 /**
  * Write a description of class Background here.
  *
@@ -16,9 +15,9 @@ public class Background
     // instance variables - replace the example below with your own
     private KBLinkedList dungeon;
     private ArrayList<Encounter> encounters;
-    private int playerLocation;
     private int levelNumber;
     private char z;
+    private ArrayList<Encounter> inventory;
     private Player player;
     Scanner scanner;
 
@@ -108,11 +107,11 @@ public class Background
     {
         if(Character.toLowerCase(z) == 'a')
         {
-            dungeon.printDungeon();
+            this.dungeon.printDungeon();
         }
          else if (Character.toLowerCase(z) == 'b')
          {
-             this.printInventory();
+             this.inventoryMenu();
         }
         else if(Character.toLowerCase(z) == 'c')
         {
@@ -123,12 +122,12 @@ public class Background
             this.movePlayer();
         }
         else if(Character.toLowerCase(z) == 'e')
-        {
-            this.showExit();
+        {    
+            this.getExit();
         }
         else if (Character.toLowerCase(z) == 'x')
         {
-                this.rollCredits();
+            this.rollCredits();
         }
         else
         {
@@ -136,34 +135,58 @@ public class Background
         }
         return this.z;
     }
-    public void showExit()
+    public void getExit()
     {
+        int exitLocation = this.dungeon.exitLocation();
+        int playerLocation = this.dungeon.playerLocation();
 
+        int exitDistance = Math.abs(exitLocation - playerLocation);
+        boolean flag3 = false;
+        if (exitDistance > this.encounters.size() / 2) {
+            exitDistance = this.encounters.size() - exitDistance;
+            flag3 = true;
+        }
+        System.out.print("The exit is ");
+        if (exitDistance == 1)
+        {
+            System.out.print("next to you!");
+        }
+        else
+        {
+            System.out.print(+exitDistance+ " rooms away.");
+        }
     }
-    public void printInventory()
+    
+    public void inventoryMenu()
     {
-
+        System.out.println("Inventory: " + this.dungeon.getInventory());
     }
     public void printStats()
     {
 
     }
-    public void movePlayer()
+    public boolean movePlayer()
     {
-        System.out.print("Please enter L or R to move left or right.");
-        this.z = this.scanner.next().charAt(0);
-        if(Character.toLowerCase(z) == 'l')
-        {
+        boolean movement = false;
+        while(!movement){
+            System.out.print("Please enter L or R to move left or right.");
+            this.z = this.scanner.next().charAt(0);
+            if(Character.toLowerCase(z) == 'l')
+            {
             this.dungeon.movePlayerLeft();
-        }
-        else if(Character.toLowerCase(z) == 'r')
-        {
+            movement = true;
+            }
+            else if(Character.toLowerCase(z) == 'r')
+            {
             this.dungeon.movePlayerRight();
-        }
-        else
-        {
+            movement = true;
+            }
+            else
+            {
             System.out.println("Invalid input");
+            }
         }
+        return movement;
     }
     public void rollCredits()
     {
@@ -171,26 +194,9 @@ public class Background
         System.exit(0);
     }
     //returns location of exit
-    public int exitLocation()
-    {
-        int location = -1;
-        boolean flag = false;
+    
 
-        for (int i = 0; i < this.encounters.size(); i++)
-        {
-            Encounter exit = this.encounters.get(i);
-            {
-                if (exit.getName().equals("Exit Door"))
-                {
-                    flag = true;
-                    break;
-                }
-            }
-            location = i;
-        }
-        return location;
-    }
-
+    
     public ArrayList<Encounter> getEncounters()
     {
         return encounters;
