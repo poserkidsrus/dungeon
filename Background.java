@@ -28,7 +28,7 @@ public class Background
     {
         // initialise instance variables
         this.scanner = new Scanner(System.in);
-        Player player = new Player("Player1");
+        this.player = new Player("Player1");
     }
     //create initial dungeon
     public void introduction()
@@ -56,7 +56,7 @@ public class Background
         
         KBLinkedList<Encounter> dungeon = new KBLinkedList<>();
         this.encounters = new ArrayList<>();
-        encounters.add(new Player("Player1"));
+        encounters.add(this.player);
         encounters.add(new Exit("Exit Door"));
         String[] possibleMonsters = {"Goblin", "Stone Golem", "Spooky Skeleton", "Witch","Potion", "Sword", "Armor"};
         Random rand = new Random();
@@ -135,6 +135,8 @@ public class Background
         }
         return this.z;
     }
+
+    //show distance from player to exit
     public void getExit()
     {
         int exitLocation = this.dungeon.exitLocation();
@@ -161,9 +163,15 @@ public class Background
     {
         System.out.println("Inventory: " + this.dungeon.getInventory());
     }
+    // public void updatePlayerStats()
+    // {
+        // int[] inventorystats = this.dungeon.getInventoryStats();
+        // int atk = inventorystats[0];
+
+    // }
     public void printStats()
     {
-
+        System.out.println(this.player.getStats());
     }
     public boolean movePlayer()
     {
@@ -184,6 +192,7 @@ public class Background
             else
             {
             System.out.println("Invalid input");
+            
             }
         }
         return movement;

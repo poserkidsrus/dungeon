@@ -13,6 +13,8 @@ public class KBLinkedList<E>
     private int dungeonSize;
     private ArrayList<Encounter> encounters;
     private ArrayList<Encounter> inventory;
+    private int[] inventorystats;
+    private String[] statStrings;
     private int playerLocation;
     private char z;
     public KBLinkedList()
@@ -21,6 +23,7 @@ public class KBLinkedList<E>
         this.tail = null;
         this.scanner = new Scanner(System.in);
         this.inventory = new ArrayList<>();
+        this.inventorystats = new int[4];
     }
 
     //prints contents of current dungeon
@@ -106,6 +109,8 @@ public class KBLinkedList<E>
             if(Character.toLowerCase(z) == 'y')
             {
                 getItemRight();
+                // Player player = (Player) temp.data;
+                // player.setStats(inventorystats[0], inventorystats[1], inventorystats[2], inventorystats[3]);
                 Encounter tryout = (Encounter) temp.data;
                 temp.data = swapCell.data;
                 swapCell.data = tryout;
@@ -152,6 +157,8 @@ public class KBLinkedList<E>
             if(Character.toLowerCase(z) == 'y')
             {
                 getItemLeft();
+                //Player player = (Player) temp.data;
+                //player.setStats(inventorystats[0], inventorystats[1], inventorystats[2], inventorystats[3]);
                 Encounter tryout = (Encounter) temp.data;
                 temp.data = swapCell.data;
                 swapCell.data = tryout;
@@ -236,8 +243,12 @@ public class KBLinkedList<E>
         }
         Encounter inventoryitem = (Encounter) swapCell.data;
         inventory.add(inventoryitem);
+        System.out.println();
+        System.out.println("The " +inventoryitem.getName()+ " you picked up has the following stats: ");
+        updateInventory();
         swapCell.setData(new Encounter("Empty Room"));
-
+        
+        
     }
 
     // if item is present in the cell right of player, add item to inventory and replace with empty room
@@ -262,9 +273,29 @@ public class KBLinkedList<E>
         }
         Encounter inventoryitem = (Encounter) swapCell.data;
         inventory.add(inventoryitem);
+        System.out.println();
+        System.out.println("The " +inventoryitem.getName()+ " you picked up has the following stats: ");
+        updateInventory();
         swapCell.setData(new Encounter("Empty Room"));
+        
+        
     }
 
+
+    public void updateInventory()
+    {
+        int atk;
+        int spd;
+        int dfn;
+        int hlth;
+        Item inventoryitem = (Item) inventory.get(0);
+        inventorystats[0] = atk = inventoryitem.getAttack();
+        inventorystats[1] = spd = inventoryitem.getSpeed();
+        inventorystats[2] = dfn =  inventoryitem.getDefense();
+        inventorystats[3] = hlth = inventoryitem.getHealth();
+        
+        System.out.println("Attack bonus : " +atk+ "\nSpeed bonus : " +spd+ "\nDefense Bonus : " +dfn+ "\nHealth Bonus : " +hlth);
+    }
     // loop through cells and iterate until player location is found, return value
     public int playerLocation()
     {
@@ -330,7 +361,14 @@ public class KBLinkedList<E>
     {
         return inventory;
     }
-
+    public int[] getInventoryStats()
+    {
+        return inventorystats;
+    }
+    public String[] getstatStrings()
+    {
+        return statStrings;
+    }
     public boolean emptyCheck()
     {
         return head == null;

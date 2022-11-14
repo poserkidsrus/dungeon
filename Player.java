@@ -28,8 +28,9 @@ public class Player extends Encounter
         // initialise instance variables
         super(name);
         
-        this.lifeTotal = 30;
+        
         this.classLevel = 1;
+        this.lifeTotal = 30;
         this.attackPower = 15;
         this.speed = 50;
         this.defenseLevel = 30;
@@ -45,34 +46,37 @@ public class Player extends Encounter
         "Experience: " +this.exp+ "");
         
     }
+
     public void gainExp(int expAdd)
     {
         this.exp += expAdd;
     }
-    public void setAttack()
+
+    public void setAttack(int atk)
     {
-        this.attackPower = attackPower;
+        this.attackPower += atk;
     }
-    public void setLevel()
+
+    public void setLevel(int level)
     {
-        this.classLevel = classLevel;
+        this.classLevel += level;
     }
-    public void setSpeed()
+
+    public void setSpeed(int spd)
     {
-        this.speed = speed;
+        this.speed += spd;
     }
-    public void setDefense()
+
+    public void setDefense(int dfn)
     {
-        this.defenseLevel = defenseLevel;
+        this.defenseLevel += dfn;
     }
-    public void setLife()
-    {
-        this.lifeTotal = lifeTotal;
-    }
+
     public int getLifeTotal()
     {
         return this.lifeTotal;
     }
+
     public void gainLife(int lifeGain)
     {
         // put your code here
@@ -84,6 +88,7 @@ public class Player extends Encounter
         }
         
     }
+
     public void gainLevel()
     {
         if (exp == 100)
@@ -97,10 +102,15 @@ public class Player extends Encounter
     {
         return classLevel;
     }
-    public void setStats()
+
+    public void setStats(int atk, int spd, int dfn, int hlth)
     {
-        this.stats = stats;
+        setAttack(atk);
+        setSpeed(spd);
+        setDefense(dfn);
+        gainLife(hlth);
     }
+
     public String getStats()
     {
         return stats;
