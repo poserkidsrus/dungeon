@@ -25,16 +25,16 @@ public class Item extends Encounter
         Random rand = new Random();
         int atkBounds = 10;
         attack = rand.nextInt(atkBounds)+10;
-        this.attack = attack;
+        
         int dfnsBounds = 20;
         defense = rand.nextInt(dfnsBounds)+0;
-        this.defense = defense;
+        
         int spdBounds = 20;
         speed = rand.nextInt(dfnsBounds)+0;
-        this.speed = speed;
+        
         int lifeBounds = 20;
         health = rand.nextInt(lifeBounds)+3;
-        this.health = health;
+        
     }
     public int getAttack()
     {

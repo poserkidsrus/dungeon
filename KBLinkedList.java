@@ -102,15 +102,15 @@ public class KBLinkedList<E>
         {
             swapCell=swapCell.getNext();     
         }
-        if (swapCell.getData().getClass().getSimpleName() == "Item")
+        if (swapCell.getData().getClass().getSimpleName().equals("Item"))
         {
             System.out.print("Would you like to pick up this item? Enter Y for yes or N for no.");
             this.z = this.scanner.next().charAt(0);
             if(Character.toLowerCase(z) == 'y')
             {
                 getItemRight();
-                // Player player = (Player) temp.data;
-                // player.setStats(inventorystats[0], inventorystats[1], inventorystats[2], inventorystats[3]);
+                
+                
                 Encounter tryout = (Encounter) temp.data;
                 temp.data = swapCell.data;
                 swapCell.data = tryout;
@@ -150,7 +150,7 @@ public class KBLinkedList<E>
 
         }
 
-        if(swapCell.getData().getClass().getSimpleName() == "Item")
+        if(swapCell.getData().getClass().getSimpleName().equals("Item"))
         {
             System.out.print("Would you like to pick up this item? Enter Y for yes or N for no.");
             this.z = this.scanner.next().charAt(0);
@@ -187,7 +187,7 @@ public class KBLinkedList<E>
 
         while (temp != null)
         {
-            if (temp.previous.getData().getClass().getSimpleName() == "Player")
+            if (temp.previous.getData().getClass().getSimpleName().equals("Player"))
             {
                 flag = true;
                 break;
@@ -209,7 +209,7 @@ public class KBLinkedList<E>
 
         while (temp != null)
         {
-            if (temp.next.getData().getClass().getSimpleName() == "Player")
+            if (temp.next.getData().getClass().getSimpleName().equals("Player"))
             {
                 flag = true;
                 break;
@@ -245,7 +245,8 @@ public class KBLinkedList<E>
         inventory.add(inventoryitem);
         System.out.println();
         System.out.println("The " +inventoryitem.getName()+ " you picked up has the following stats: ");
-        updateInventory();
+        Player p = (Player) temp.data;
+        updateInventory(p);
         swapCell.setData(new Encounter("Empty Room"));
         
         
@@ -275,25 +276,27 @@ public class KBLinkedList<E>
         inventory.add(inventoryitem);
         System.out.println();
         System.out.println("The " +inventoryitem.getName()+ " you picked up has the following stats: ");
-        updateInventory();
+        Player p = (Player) temp.data;
+        updateInventory(p);
         swapCell.setData(new Encounter("Empty Room"));
         
         
     }
 
 
-    public void updateInventory()
+    public void updateInventory(Player p)
     {
         int atk;
         int spd;
         int dfn;
         int hlth;
+        
         Item inventoryitem = (Item) inventory.get(0);
         inventorystats[0] = atk = inventoryitem.getAttack();
         inventorystats[1] = spd = inventoryitem.getSpeed();
         inventorystats[2] = dfn =  inventoryitem.getDefense();
         inventorystats[3] = hlth = inventoryitem.getHealth();
-        
+        p.setStats(inventorystats[0], inventorystats[1], inventorystats[2], inventorystats[3]);
         System.out.println("Attack bonus : " +atk+ "\nSpeed bonus : " +spd+ "\nDefense Bonus : " +dfn+ "\nHealth Bonus : " +hlth);
     }
     // loop through cells and iterate until player location is found, return value
@@ -356,6 +359,10 @@ public class KBLinkedList<E>
         return tail.getData();
     }
 
+    // public E returnData()
+    // {
+        // return 
+    // }
     // returns Encounter Items in inventory
     public ArrayList<Encounter> getInventory()
     {
@@ -365,10 +372,7 @@ public class KBLinkedList<E>
     {
         return inventorystats;
     }
-    public String[] getstatStrings()
-    {
-        return statStrings;
-    }
+    
     public boolean emptyCheck()
     {
         return head == null;

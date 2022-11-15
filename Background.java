@@ -155,7 +155,7 @@ public class Background
         }
         else
         {
-            System.out.print(+exitDistance+ " rooms away.");
+            System.out.print(exitDistance + " rooms away.");
         }
     }
     
@@ -171,7 +171,7 @@ public class Background
     // }
     public void printStats()
     {
-        System.out.println(this.player.getStats());
+        System.out.println(player.getStats());
     }
     public boolean movePlayer()
     {

@@ -36,14 +36,8 @@ public class Player extends Encounter
         this.defenseLevel = 30;
         this.maxLife = 150;
         this.exp = 1;
-        this.stats = String.join(System.getProperty("line.separator"),
-        "Your Stats are: ",
-        "Level: " + this.classLevel + "",
-        "Health: " + this.lifeTotal + "",
-        "Speed: " + this.speed +"",
-        "Defense: " + this.defenseLevel+ "",
-        "Attack: " +this.attackPower+ "",
-        "Experience: " +this.exp+ "");
+
+        
         
     }
 
@@ -109,11 +103,19 @@ public class Player extends Encounter
         setSpeed(spd);
         setDefense(dfn);
         gainLife(hlth);
+        
     }
 
     public String getStats()
     {
-        return stats;
+        return this.stats = String.join(System.getProperty("line.separator"),
+        "Your Stats are: ",
+        "Level: " + classLevel + "",
+        "Health: " + lifeTotal + "",
+        "Speed: " + speed +"",
+        "Defense: " + defenseLevel+ "",
+        "Attack: " +attackPower+ "",
+        "Experience: " +exp+ "");
     }
 
 }
