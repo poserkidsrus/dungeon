@@ -38,18 +38,18 @@ public class Item extends Encounter
     }
     public int getAttack()
     {
-        return this.attack;
+        return attack;
     }
     public int getDefense()
     {
-        return this.defense;
+        return defense;
     }
     public int getSpeed()
     {
-        return this.speed;
+        return speed;
     }
     public int getHealth()
     {
-        return this.health;
+        return health;
     }
 }

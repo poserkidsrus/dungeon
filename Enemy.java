@@ -10,12 +10,13 @@ import java.lang.Class;
 public class Enemy extends Encounter
 {
     // instance variables - replace the example below with your own
-    private int lifeTotal;
-    private int attackPower;
+    private int health;
+    private int attack;
     private int speed;
-    private int defenseLevel;
+    private int defense;
+    private String stats;
     
-    private ArrayList<String> stats;
+    
     /**
      * Constructor for objects of class Enemy
      */
@@ -23,42 +24,52 @@ public class Enemy extends Encounter
     {
         // initialise instance variables 
         super(name);
-        this.stats = new ArrayList<>();
+        
 
         Random rand = new Random();
         int atkBounds = 50;
-        attackPower = rand.nextInt(atkBounds)+30;
-        this.attackPower = attackPower;
+        attack = rand.nextInt(atkBounds)+30;
+        this.attack = attack;
         int dfnsBounds = 30;
-        defenseLevel = rand.nextInt(dfnsBounds)+0;
-        this.defenseLevel = defenseLevel;
+        defense = rand.nextInt(dfnsBounds)+0;
+        this.defense = defense;
         int spdBounds = 50;
         speed = rand.nextInt(dfnsBounds)+20;
         this.speed = speed;
         int lifeBounds = 20;
-        lifeTotal = rand.nextInt(lifeBounds)+3;
-        this.lifeTotal = lifeTotal;
+        health = rand.nextInt(lifeBounds)+3;
+        this.health = health;
         
         
         
     }
     
-    public void populateStats(String temp)
+    public String getStats()
     {
-        temp = "Enemy: " + getName() + "\n Attack Power: " + attackPower +
-            " \n Defense Level: " + defenseLevel + "\n Life Total: " +lifeTotal;
-        stats.add(temp);
+        return this.stats = String.join(System.getProperty("line.separator"),
+        "Health: " + health + "",
+        "Speed: " + speed +"",
+        "Defense: " + defense+ "",
+        "Attack: " +attack+ "");
     }
-    
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public void sampleMethod(int y)
+    public void takeDamage(int dmg)
     {
-        // put your code here
-        
+        this.health -= dmg;
+    }
+    public int getAttack()
+    {
+        return attack;
+    }
+    public int getDefense()
+    {
+        return defense;
+    }
+    public int getSpeed()
+    {
+        return speed;
+    }
+    public int getHealth()
+    {
+        return health;
     }
 }

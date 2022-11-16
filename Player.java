@@ -10,11 +10,11 @@ import java.lang.Class;
 public class Player extends Encounter
 {
     // instance variables - replace the example below with your own
-    private int lifeTotal;
+    private int health;
     private int classLevel;
-    private int attackPower;
+    private int attack;
     private int speed;
-    private int defenseLevel;
+    private int defense;
     private int maxLife;
     private int exp;
     private String stats;
@@ -30,10 +30,10 @@ public class Player extends Encounter
         
         
         this.classLevel = 1;
-        this.lifeTotal = 30;
-        this.attackPower = 15;
+        this.health = 30;
+        this.attack = 15;
         this.speed = 50;
-        this.defenseLevel = 30;
+        this.defense = 30;
         this.maxLife = 150;
         this.exp = 1;
 
@@ -48,9 +48,12 @@ public class Player extends Encounter
 
     public void setAttack(int atk)
     {
-        this.attackPower += atk;
+        this.attack += atk;
     }
-
+    public int getAttack()
+    {
+        return attack;
+    }
     public void setLevel(int level)
     {
         this.classLevel += level;
@@ -63,22 +66,42 @@ public class Player extends Encounter
 
     public void setDefense(int dfn)
     {
-        this.defenseLevel += dfn;
+        this.defense += dfn;
     }
 
-    public int getLifeTotal()
+    public int getSpeed()
     {
-        return this.lifeTotal;
+        return speed;
     }
-
+    public void setHealth(int hlth)
+    {
+        this.health = hlth;
+    }
+    public int getHealth()
+    {
+        return health;
+    }
+    public int getDefense()
+    {
+        return defense;
+    }
+    public void takeDamage(int dmg)
+    {
+        this.health -= dmg;
+        if (health == 0)
+        {
+            System.out.print("\nYOU DIED.\n");
+            System.exit(0);
+        }
+    }
     public void gainLife(int lifeGain)
     {
         // put your code here
-        this.lifeTotal += lifeGain;
+        this.health += lifeGain;
         
-        if (lifeTotal >= maxLife)
+        if (health >= maxLife)
         {
-            this.lifeTotal = maxLife;
+            this.health = maxLife;
         }
         
     }
@@ -96,7 +119,7 @@ public class Player extends Encounter
     {
         return classLevel;
     }
-
+    
     public void setStats(int atk, int spd, int dfn, int hlth)
     {
         setAttack(atk);
@@ -111,10 +134,10 @@ public class Player extends Encounter
         return this.stats = String.join(System.getProperty("line.separator"),
         "Your Stats are: ",
         "Level: " + classLevel + "",
-        "Health: " + lifeTotal + "",
+        "Health: " + health + "",
         "Speed: " + speed +"",
-        "Defense: " + defenseLevel+ "",
-        "Attack: " +attackPower+ "",
+        "Defense: " + defense+ "",
+        "Attack: " +attack+ "",
         "Experience: " +exp+ "");
     }
 
