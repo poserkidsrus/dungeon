@@ -95,13 +95,15 @@ public class KBLinkedList<E>
 
         for(int i = 0; i < location; i++)
         {
-            temp=temp.getNext();         
-        }
+            temp=temp.getNext();
 
+        }
         for(int i = 0; i < moveLocation; i++)
         {
-            swapCell=swapCell.getNext();     
+            swapCell=swapCell.getNext();
+
         }
+
         if(swapCell.getData().getClass().getSimpleName().equals("Item"))
         {   Item inventoryitem = (Item) swapCell.data;
             System.out.println("This room contains a " +inventoryitem.getName() + " .");
@@ -157,13 +159,27 @@ public class KBLinkedList<E>
             temp.data = tryout;
             }
         }
+        // else if(swapCell.getData().getClass().getSimpleName().equals("Exit"))
+        // {
+            // System.out.print("Would you like to exit?");
+            // this.z = this.scanner.next().charAt(0);
+            // if(Character.toLowerCase(z) == 'y')
+            // {
+                // exitLevel();
+            // }
+            // else
+            // {
+                // Encounter tryout = (Encounter) temp.data;
+                // temp.data = swapCell.data;
+                // swapCell.data = tryout;
+            // }
+        // }
         else
         {
             Encounter tryout = (Encounter) swapCell.data;
             swapCell.data = temp.data;
             temp.data = tryout;
         }
-
     }
 
     // move player left in the linked list
@@ -241,6 +257,21 @@ public class KBLinkedList<E>
                 swapCell.data = tryout;
             }
         }
+        // else if(swapCell.getData().getClass().getSimpleName().equals("Exit"))
+        // {
+            // System.out.print("Would you like to exit?");
+            // this.z = this.scanner.next().charAt(0);
+            // if(Character.toLowerCase(z) == 'y')
+            // {
+                // exitLevel();
+            // }
+            // else
+            // {
+                // Encounter tryout = (Encounter) temp.data;
+                // temp.data = swapCell.data;
+                // swapCell.data = tryout;
+            // }
+        // }
         else
         {
             Encounter tryout = (Encounter) temp.data;
@@ -248,6 +279,7 @@ public class KBLinkedList<E>
             swapCell.data = tryout;
         }
     }
+
     // return index of cell to the right of player position
     public int rightOfPlayer()
     {
@@ -421,6 +453,24 @@ public class KBLinkedList<E>
 
     }
 
+    public void exitLevel()
+    {
+        Cell temp = this.head;
+        Cell swapCell = this.head;
+
+        int location = this.playerLocation();
+        int moveLocation = this.exitLocation();
+        for(int i = 0; i < location; i++)
+        {
+            temp=temp.getNext();         
+        }
+
+        for(int i = 0; i < moveLocation; i++)
+        {
+            swapCell=swapCell.getNext();     
+        }
+        temp.setData(new Encounter("Empty Room"));
+    }
     // returns data of cell in head position
     public E returnHead()
     {

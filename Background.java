@@ -50,9 +50,9 @@ public class Background
         createDungeon(input);
     }
 
-    public void createDungeon(int input)
+    public int createDungeon(int input)
     {
-        this.levelNumber++;
+        levelNumber++;
         
         KBLinkedList<Encounter> dungeon = new KBLinkedList<>();
         this.encounters = new ArrayList<>();
@@ -81,6 +81,7 @@ public class Background
         {
             dungeon.fillDungeon(room);
         }
+        return levelNumber;
     }
     
     public void gameMenu()
@@ -93,7 +94,7 @@ public class Background
             System.out.println("B - Show inventory");
             System.out.println("C - Show stats");
             System.out.println("D - Move");
-            System.out.println("E - Show Exit");
+            System.out.println("E - Exit Options");
             System.out.println("X - End Game");
 
             this.z = this.scanner.next().charAt(0);
@@ -141,21 +142,41 @@ public class Background
     {
         int exitLocation = this.dungeon.exitLocation();
         int playerLocation = this.dungeon.playerLocation();
-
         int exitDistance = Math.abs(exitLocation - playerLocation);
-        boolean flag3 = false;
-        if (exitDistance > this.encounters.size() / 2) {
-            exitDistance = this.encounters.size() - exitDistance;
-            flag3 = true;
-        }
-        System.out.print("The exit is ");
-        if (exitDistance == 1)
+        //boolean flag3 = false;
+
+        System.out.println("Have you grown weary of this torment?");
+        System.out.println("If you would like to exit, enter 'e'.");
+        System.out.println("If you would like to see the distance to the exit, enter 'y'.");
+        char z = this.scanner.next().charAt(0);
+
+        if(Character.toLowerCase(z) == 'y')
         {
-            System.out.print("next to you!");
+            //flag3 = true;
+            if (exitDistance > this.encounters.size() / 2)
+            {
+            exitDistance = this.encounters.size() - exitDistance;
+            }
+            System.out.println("The exit is ");
+                if (exitDistance == 1)
+                {
+                System.out.print("next to you!");
+                }
+                else
+                {
+                System.out.print(exitDistance + " rooms away.");
+                }
+                
+        }
+        else if(Character.toLowerCase(z) == 'e')
+        {
+            //this.dungeon.exitLevel();
+            moveToExit();
+            
         }
         else
         {
-            System.out.print(exitDistance + " rooms away.");
+            System.out.println("Please try again");
         }
     }
     
@@ -202,7 +223,15 @@ public class Background
         System.out.print("\nGAME OVER\n");
         System.exit(0);
     }
-    //returns location of exit
+    public void moveToExit()
+    {
+        System.out.println();
+        System.out.println();
+        System.out.println("Beware, adventurer! What awaits you is not kind...");
+        System.out.println("Welcome to level " + (this.levelNumber + 1)+ "!");
+        System.out.println("The deeper you go, the harder you must fight.");
+        this.createDungeon(this.encounters.size()*2);
+    }
     
 
     
